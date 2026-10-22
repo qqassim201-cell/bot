@@ -1,10 +1,10 @@
 from openai import OpenAI
 from telethon import TelegramClient, events
 
-api_id = 3196867
-api_hash = "e0fb700acafd5c2e587b5e9b29ce561"
+api_id = 31968687
+api_hash = "e0fb7e00acafd5c2e587b5e9b29ce561"
 openai_key = (
-    "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"
+    "sk-proj-qoxXicKeWmI5ObHYOv0fGgUa3mqMONIRtDexSbAWcnb8WJ5MKtIFMBtXTMhu9J19OEOM3Q2TT38IbkF312Sy8H7O3ZfSI846j982j8gbpT1MK"
 )
 
 client = TelegramClient("userbot", api_id, api_hash)
@@ -16,7 +16,21 @@ async def main(event):
   if event.is_private:
     res = ai.chat.completions.create(
         model="gpt-4o-mini",
-        messages=[{"role": "user", "content": event.raw_text}],
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are a normal guy chatting on Telegram. Always reply"
+                    " in casual, everyday English (street slang, relaxed tone,"
+                    " lowercase, natural abbreviations like 'u', 'r', 'gonna',"
+                    " 'wanna', 'lol'). Do NOT sound like an AI, a bot, or a"
+                    " formal assistant. Keep responses short and"
+                    " conversational, just like a real person texting a"
+                    " friend."
+                ),
+            },
+            {"role": "user", "content": event.raw_text},
+        ],
     )
     await event.reply(res.choices[0].message.content)
 
